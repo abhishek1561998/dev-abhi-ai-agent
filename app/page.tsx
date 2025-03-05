@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { SignedOut, SignInButton, SignUpButton, useUser } from "@clerk/nextjs";
+import { SignedOut, SignInButton, SignedIn } from "@clerk/nextjs";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
@@ -57,6 +57,17 @@ export default function Home() {
                 </Button>
               </SignInButton>
             </SignedOut>
+            <SignedIn>
+              <Link href="/dashboard">
+                <Button
+                  size="lg"
+                  className="w-full sm:w-auto group relative px-6 py-2 text-base font-medium bg-gradient-to-r from-teal-600 to-blue-500 hover:from-teal-500 hover:to-blue-400 border-0 shadow-lg hover:shadow-teal-500/25"
+                >
+                  Get Started
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            </SignedIn>
           </div>
 
           {/* Features Section */}
