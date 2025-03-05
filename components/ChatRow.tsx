@@ -3,7 +3,7 @@ import { Trash2 } from "lucide-react";
 import { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
-import TimeAgo from "react-timeago";
+// import TimeAgo from "react-timeago";
 interface ChatRowProps {
   chatId: Id<"chats">;
   title: string;
@@ -37,11 +37,11 @@ export default function ChatRow({
             </button>
           </div>
 
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <span className="text-xs text-gray-400 whitespace-nowrap">
               <TimeAgo date={lastMessage.createdAt} />
             </span>
-          </div>
+          </div> */}
         </>
       ) : (
         <div className="flex items-center justify-between gap-2">
