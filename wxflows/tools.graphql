@@ -1,0 +1,61 @@
+extend type Query {
+  wikipediaTool: TC_GraphQL
+    @supplies(query: "tc_tools")
+    @materializer(
+      query: "tc_graphql_tool"
+      arguments: [
+        { name: "name", const: "wikipedia" }
+        { name: "description", const: "Retrieve information from Wikipedia." }
+        { name: "fields", const: "search|page" }
+      ]
+    )
+  google_books: TC_GraphQL
+    @supplies(query: "tc_tools")
+    @materializer(
+      query: "tc_graphql_tool"
+      arguments: [
+        { name: "name", const: "google_books" }
+        {
+          name: "description"
+          const: "Retrieve information from Google Books, Find books by search string, for example search for Daniel Keyes 'Flowers for Algernon' use q: 'initial:Flowers+inauthor:Keyes'"
+        }
+        { name: "fields", const: "books|book" }
+      ]
+    )
+  youtube_transcript: TC_GraphQL
+    @supplies(query: "tc_tools")
+    @materializer(
+      query: "tc_graphql_tool"
+      arguments: [
+        { name: "name", const: "youtube_transcript" }
+        {
+          name: "description"
+          const: "Retrieve transcripts and captions from YouTube videos by providing the video ID. Returns timestamped text content."
+        }
+        { name: "fields", const: "transcript_get" }
+      ]
+    )
+  curl_comments: TC_GraphQL
+    @supplies(query: "tc_tools")
+    @materializer(
+      query: "tc_graphql_tool"
+      arguments: [
+        { name: "name", const: "curl_comments" }
+        { name: "description", const: "Retrieve comments from a curl request." }
+        { name: "fields", const: "dummyCommentsQuery" }
+      ]
+    )
+  customer_data: TC_GraphQL
+    @supplies(query: "tc_tools")
+    @materializer(
+      query: "tc_graphql_tool"
+      arguments: [
+        { name: "name", const: "customer_data" }
+        {
+          name: "description"
+          const: "Retrieve customer information including their address and order history. Returns customer details like name, email, address, and past orders with shipping information. To search for customer with id: 1, use the curl url followed by /1 i.e. https://api.example.com/customers/1"
+        }
+        { name: "fields", const: "customerQuery" }
+      ]
+    )
+}
