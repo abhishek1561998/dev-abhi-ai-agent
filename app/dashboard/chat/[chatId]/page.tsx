@@ -25,7 +25,7 @@ async function chatPage({ params }: ChatPageProps) {
     const convex = getConvexClient();
     const initalMessages = await convex.query(api.messages.list, { chatId });
     return (
-      <div className="flex-1 overflow-hidden">
+      <div className="h-full flex flex-col">
         <ChatInterface chatId={chatId} initalMessages={initalMessages} />
       </div>
     );
