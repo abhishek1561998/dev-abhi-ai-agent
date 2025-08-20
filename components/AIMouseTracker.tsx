@@ -15,7 +15,7 @@ interface Particle {
 
 export default function AIMouseTracker() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
   const particlesRef = useRef<Particle[]>([]);
   const lastTimeRef = useRef(0);
@@ -132,6 +132,8 @@ export default function AIMouseTracker() {
     // Continue animation if particles exist or mouse is active
     if (particlesRef.current.length > 0 || isActive) {
       animationRef.current = requestAnimationFrame(animate);
+    } else {
+      animationRef.current = null;
     }
   }, [isActive, createParticle]);
 
@@ -164,8 +166,9 @@ export default function AIMouseTracker() {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseleave', handleMouseLeave);
       window.removeEventListener('resize', updateCanvasSize);
-      if (animationRef.current) {
+      if (animationRef.current !== null) {
         cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
       }
     };
   }, [handleMouseMove, handleMouseLeave, animate]);

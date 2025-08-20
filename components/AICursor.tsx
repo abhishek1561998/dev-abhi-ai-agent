@@ -9,7 +9,7 @@ export default function AICursor() {
   const cursorRef2 = useRef({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
 
   // Optimized mouse tracking
   const handleMouseMove = useCallback((e: MouseEvent) => {
@@ -85,8 +85,9 @@ export default function AICursor() {
       document.removeEventListener('mouseout', handleMouseOut);
       document.removeEventListener('mousedown', handleMouseDown);
       document.removeEventListener('mouseup', handleMouseUp);
-      if (animationRef.current) {
+      if (animationRef.current !== null) {
         cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
       }
     };
   }, [handleMouseMove, handleMouseOver, handleMouseOut, handleMouseDown, handleMouseUp, animateCursor]);
