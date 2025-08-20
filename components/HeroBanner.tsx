@@ -57,7 +57,7 @@ export default function HeroBanner() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 container mx-auto px-4 text-center">
+      <div className="relative z-10 container mx-auto px-4 py-8 text-center">
         <div className="max-w-5xl mx-auto">
           <div className="absolute -top-10 right-20 animate-bounce delay-2000">
             <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/25">
@@ -71,7 +71,7 @@ export default function HeroBanner() {
           </div>
 
           {/* Main heading */}
-          <div className="mb-8">
+          <div className="mb-8 mt-15">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
               <span className="bg-gradient-to-r from-white via-cyan-200 to-white bg-clip-text text-transparent">
                 Welcome to the
