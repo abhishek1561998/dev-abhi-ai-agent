@@ -1,8 +1,7 @@
 "use client";
 
 import { use } from "react";
-import Link from "next/link";
-import { Plus, X, Trash2, Settings } from "lucide-react";
+import { Plus, X,  } from "lucide-react";
 import NavigationContext from "@/lib/NavigationProvider";
 import { Button } from "./ui/button";
 import { api } from "@/convex/_generated/api";
@@ -10,7 +9,6 @@ import { useMutation, useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
 import { Id } from "@/convex/_generated/dataModel";
 import ChatRow from "./ChatRow";
-import TimeAgo from "react-timeago";
 import { useTheme } from "@/lib/ThemeProvider";
 import ThemeSelector from "./ThemeSelector";
 
@@ -194,8 +192,7 @@ export default function Sidebar() {
                 onClick={closeMobileNav}
                 className="p-2 rounded-lg transition-all duration-300 group"
                 style={{
-                  backgroundColor: 'transparent',
-                  ':hover': { backgroundColor: currentTheme.colors.primary + '10' }
+                  backgroundColor: 'transparent'
                 }}
               >
                 <X
