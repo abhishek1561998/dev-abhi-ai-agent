@@ -30,10 +30,6 @@ export default function ChatRow({
       style={{
         backgroundColor: 'transparent',
         border: `1px solid ${currentTheme.colors.border}20`,
-        ':hover': {
-          backgroundColor: currentTheme.colors.surface + '40',
-          borderColor: currentTheme.colors.primary + '40'
-        }
       }}
     >
       {/* Background glow on hover */}
@@ -99,16 +95,12 @@ export default function ChatRow({
         className="relative z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 p-1.5 rounded-lg hover:scale-110"
         style={{
           backgroundColor: 'transparent',
-          ':hover': {
-            backgroundColor: currentTheme.colors.error + '20'
-          }
         }}
       >
         <Trash2
           className="h-4 w-4 transition-colors duration-200"
           style={{
             color: currentTheme.colors.textSecondary,
-            ':hover': { color: currentTheme.colors.error }
           }}
         />
       </button>
