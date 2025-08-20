@@ -116,14 +116,14 @@ export default function HeroBanner() {
                   <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </Button>
               </SignInButton>
-              <Button
+              {/* <Button
                 variant="outline"
                 size="lg"
                 className="group px-8 py-4 text-lg font-semibold border-2 border-cyan-400/50 text-cyan-400 hover:bg-cyan-400/10 hover:border-cyan-400 backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
               >
                 <Play className="mr-3 w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
                 Watch Demo
-              </Button>
+              </Button> */}
             </SignedOut>
             <SignedIn>
               <Link href="/dashboard">

@@ -3,7 +3,8 @@
 import { MessageBubbleProps } from "@/lib/types";
 import { useUser } from "@clerk/clerk-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { BotIcon } from "lucide-react";
+import { BotIcon, User } from "lucide-react";
+import { useTheme } from "@/lib/ThemeProvider";
 
 const formalMessage = (content: string): string => {
   if (!content) return "";
@@ -22,23 +23,50 @@ const formalMessage = (content: string): string => {
 
 function MessageBubble({ content, isUser }: MessageBubbleProps) {
   const { user } = useUser();
+  const { currentTheme } = useTheme();
   const formattedContent = formalMessage(content);
 
   return (
-    <div className="group animate-in fade-in-0 duration-100">
-      <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+    <div className="group animate-in fade-in-0 duration-300">
+      <div className={`flex gap-3 ${isUser ? "justify-end" : "justify-start"}`}>
+        {/* Avatar - Left side for AI */}
+        {!isUser && (
+          <div className="flex-shrink-0">
+            <div
+              className="w-8 h-8 rounded-full flex items-center justify-center shadow-sm border"
+              style={{
+                backgroundColor: currentTheme.colors.primary,
+                borderColor: currentTheme.colors.border + "40"
+              }}
+            >
+              <BotIcon className="h-4 w-4 text-white" />
+            </div>
+          </div>
+        )}
+
+        {/* Message Content */}
         <div
-          className={`rounded-2xl px-4 py-2 max-w-[85%] md:max-w-[75%] shadow-md ring-1 ring-inset relative transition-all duration-200 ${
-            isUser
-              ? "bg-teal-600 text-white rounded-br-none ring-gray hover:bg-teal-500"
-              : "bg-white text-gray-800 rounded-bl-none ring-gray-200 hover:bg-gray-50"
+          className={`rounded-2xl px-4 py-3 max-w-[85%] md:max-w-[75%] shadow-sm border transition-all duration-200 ${
+            isUser ? "rounded-br-md" : "rounded-bl-md"
           }`}
+          style={{
+            backgroundColor: isUser
+              ? currentTheme.colors.primary
+              : currentTheme.colors.surface,
+            color: isUser
+              ? 'white'
+              : currentTheme.colors.text,
+            borderColor: currentTheme.colors.border + "20"
+          }}
         >
-          <div className="whitespace-pre-wrap text-[15px] leading-relaxed">
+          <div className="whitespace-pre-wrap text-sm leading-relaxed">
             {formattedContent.includes("<div") ? (
               <div
                 className="prose prose-sm max-w-none"
                 dangerouslySetInnerHTML={{ __html: formattedContent }}
+                style={{
+                  color: isUser ? 'white' : currentTheme.colors.text
+                }}
               />
             ) : (
               <div className="prose prose-sm max-w-none">
@@ -46,32 +74,41 @@ function MessageBubble({ content, isUser }: MessageBubbleProps) {
               </div>
             )}
           </div>
-          <div
-            className={`absolute bottom-0 ${
-              isUser ? "-right-3 translate-y-1/2" : "-left-3 translate-y-1/2"
-            }`}
-          >
+        </div>
+
+        {/* Avatar - Right side for User */}
+        {isUser && (
+          <div className="flex-shrink-0">
             <div
-              className={`w-8 h-8 rounded-full border-2 ${
-                isUser
-                  ? "bg-white border-blue-200 group-hover:border-blue-300"
-                  : "bg-blue-600 border-white group-hover:bg-blue-700"
-              } flex items-center justify-center shadow-md transition-colors duration-200`}
+              className="w-8 h-8 rounded-full flex items-center justify-center shadow-sm border"
+              style={{
+                backgroundColor: currentTheme.colors.surface,
+                borderColor: currentTheme.colors.border + "40"
+              }}
             >
-              {isUser ? (
-                <Avatar className="h-7 w-7">
-                  <AvatarImage src={user?.imageUrl} />
-                  <AvatarFallback className="bg-blue-100 text-blue-600">
+              {user?.imageUrl ? (
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={user.imageUrl} />
+                  <AvatarFallback
+                    className="text-xs"
+                    style={{
+                      backgroundColor: currentTheme.colors.primary + "20",
+                      color: currentTheme.colors.primary
+                    }}
+                  >
                     {user?.firstName?.charAt(0)}
                     {user?.lastName?.charAt(0)}
                   </AvatarFallback>
                 </Avatar>
               ) : (
-                <BotIcon className="h-5 w-5 text-white" />
+                <User
+                  className="h-4 w-4"
+                  style={{ color: currentTheme.colors.textSecondary }}
+                />
               )}
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

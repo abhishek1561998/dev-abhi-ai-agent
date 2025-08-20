@@ -205,12 +205,51 @@
   will-change: transform;
 }
 
+/* Custom scrollbar styles */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Chat message animations */
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message-enter {
+  animation: messageSlideIn 0.3s ease-out;
+}
+
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   .animate-cursor-pulse,
   .animate-cursor-scan,
   .animate-orbit,
-  .animate-scan {
+  .animate-scan,
+  .message-enter {
     animation: none;
   }
 
@@ -263,6 +302,19 @@
 }
 
 :root {
+  /* Theme variables - will be overridden by ThemeProvider */
+  --color-primary: rgb(6, 182, 212);
+  --color-secondary: rgb(168, 85, 247);
+  --color-accent: rgb(236, 72, 153);
+  --color-background: rgb(0, 0, 0);
+  --color-surface: rgb(17, 24, 39);
+  --color-text: rgb(255, 255, 255);
+  --color-text-secondary: rgb(156, 163, 175);
+  --color-border: rgb(75, 85, 99);
+  --color-success: rgb(34, 197, 94);
+  --color-warning: rgb(245, 158, 11);
+  --color-error: rgb(239, 68, 68);
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);

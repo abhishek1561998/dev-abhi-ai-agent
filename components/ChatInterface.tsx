@@ -13,6 +13,7 @@ import { createSSEParser } from "@/lib/createSSEParser";
 import { getConvexClient } from "@/lib/convex";
 import MessageBubble from "./MessageBubble";
 import WelcomeMessage from "./WelcomeMessage";
+import { useTheme } from "@/lib/ThemeProvider";
 
 interface Message {
   _id: Id<"messages">;
@@ -31,6 +32,7 @@ export default function ChatInterface({
   initalMessages,
 }: ChatInterfaceProps) {
   const { user } = useUser();
+  const { currentTheme } = useTheme();
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>(initalMessages);
   const [isLoading, setIsLoading] = useState(false);
@@ -282,10 +284,31 @@ export default function ChatInterface({
   } as Doc<"messages">;
 
   return (
-    <main className="flex flex-col h-[calc(100vh-theme(spacing.14))] bg-gradient-to-b from-gray-50 to-white">
+    <main
+      className="flex flex-col h-full backdrop-blur-sm relative"
+      style={{
+        background: `linear-gradient(135deg, ${currentTheme.colors.background}95, ${currentTheme.colors.surface}20)`
+      }}
+    >
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div
+          className="absolute inset-0 bg-[size:20px_20px]"
+          style={{
+            backgroundImage: `radial-gradient(circle, ${currentTheme.colors.primary} 1px, transparent 1px)`
+          }}
+        />
+      </div>
+
       {/* Messages Container */}
-      <section className="flex-1 overflow-y-auto p-2 md:p-0 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
-        <div className="max-w-4xl mx-auto p-4 space-y-4">
+      <section
+        className="relative z-10 flex-1 overflow-y-auto px-4 py-6"
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: `${currentTheme.colors.border}40 transparent`
+        }}
+      >
+        <div className="max-w-4xl mx-auto space-y-4">
           {/* Welcome Message */}
           {messages.length === 0 && <WelcomeMessage />}
 
@@ -325,30 +348,88 @@ export default function ChatInterface({
       </section>
 
       {/* Input Form */}
-      <footer className="border-t bg-white p-6 shadow-lg">
-        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto relative">
-          <div className="relative flex items-center">
+      <footer
+        className="relative z-10 border-t backdrop-blur-xl p-4 shadow-lg"
+        style={{
+          background: `linear-gradient(135deg, ${currentTheme.colors.surface}90, ${currentTheme.colors.background}90)`,
+          borderColor: currentTheme.colors.border + "20"
+        }}
+      >
+        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
+          <div className="relative flex items-center gap-3">
+            {/* AI Status Indicator */}
+            <div className="flex items-center gap-2 px-3 py-2 rounded-lg"
+                 style={{ backgroundColor: currentTheme.colors.surface + "60" }}>
+              <div
+                className="w-2 h-2 rounded-full animate-pulse"
+                style={{ backgroundColor: currentTheme.colors.success }}
+              />
+              <span
+                className="text-xs font-medium"
+                style={{ color: currentTheme.colors.textSecondary }}
+              >
+                AI
+              </span>
+            </div>
+
             <Input
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Message AI agent..."
-              className="flex-1 text-black py-3 px-4 rounded-2xl border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12 bg-gray-50/80 shadow-sm transition-all duration-200"
+              placeholder="Type your message..."
+              className="flex-1 py-3 px-4 rounded-xl border focus:outline-none focus:ring-2 focus:ring-offset-0 transition-all duration-200"
+              style={{
+                color: currentTheme.colors.text,
+                backgroundColor: currentTheme.colors.surface + "60",
+                borderColor: currentTheme.colors.border + "40",
+                '--tw-ring-color': currentTheme.colors.primary + "60"
+              } as any}
               disabled={isLoading}
             />
+
             <Button
               type="submit"
               disabled={!input.trim() || isLoading}
-              className={`absolute scale-75 cursor-pointer right-1.5 rounded-xl h-10 w-10 p-0 flex items-center justify-center transition-all duration-200 ${
-                input.trim()
-                  ? "bg-blue-600 hover:bg-blue-700 text-white shadow-md"
-                  : "bg-gray-100 text-gray-400"
-              }`}
+              className="px-4 py-3 rounded-xl transition-all duration-200 hover:scale-105 disabled:hover:scale-100"
+              style={{
+                background: input.trim()
+                  ? `linear-gradient(135deg, ${currentTheme.colors.primary}, ${currentTheme.colors.secondary})`
+                  : currentTheme.colors.surface + "60",
+                color: input.trim() ? 'white' : currentTheme.colors.textSecondary,
+                border: `1px solid ${input.trim() ? currentTheme.colors.primary : currentTheme.colors.border}40`,
+                cursor: input.trim() ? 'pointer' : 'not-allowed'
+              }}
             >
               {isLoading ? (
-                <Loader2 className="h-5 w-5 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                <Send className="h-5 w-5" />
+                <Send className="h-4 w-4" />
+              )}
+            </Button>
+
+            <Button
+              type="submit"
+              disabled={!input.trim() || isLoading}
+              className="absolute right-2 rounded-xl h-12 w-12 p-0 flex items-center justify-center transition-all duration-300 group hover:scale-105"
+              style={{
+                background: input.trim()
+                  ? `linear-gradient(135deg, ${currentTheme.colors.primary}, ${currentTheme.colors.secondary})`
+                  : currentTheme.colors.surface,
+                color: input.trim() ? 'white' : currentTheme.colors.textSecondary,
+                boxShadow: input.trim() ? `0 4px 20px ${currentTheme.colors.primary}25` : 'none',
+                cursor: input.trim() ? 'pointer' : 'not-allowed'
+              }}
+            >
+              {isLoading ? (
+                <div className="relative">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  <div
+                    className="absolute inset-0 rounded-full animate-pulse opacity-20"
+                    style={{ backgroundColor: currentTheme.colors.primary }}
+                  />
+                </div>
+              ) : (
+                <Send className="h-5 w-5 group-hover:translate-x-0.5 transition-transform duration-200" />
               )}
             </Button>
           </div>

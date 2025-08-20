@@ -208,7 +208,7 @@ export default function FuturisticFooter() {
                 <div className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center">
                   <Phone className="w-4 h-4 text-cyan-400" />
                 </div>
-                <span className="text-gray-400 text-sm">+91 98765 43210</span>
+                <span className="text-gray-400 text-sm">+91 9516018508</span>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center">
